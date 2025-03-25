@@ -10,6 +10,7 @@ ENV LANG=en_US.UTF-8
 RUN apt-get update \
     && apt-get install -y software-properties-common curl net-tools nginx
 RUN add-apt-repository -y ppa:bigbluebutton/support
+RUN add-apt-repository -y ppa:rmescandon/yq
 
 RUN apt-get update \
     && apt-get install -y yq
