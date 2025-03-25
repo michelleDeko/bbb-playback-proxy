@@ -19,6 +19,9 @@ jobs:
     - name: Convert GitHub username to lowercase
       run: echo "GHCR_USER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
+    - name: Extract repository name
+      run: echo "REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f 2)" >> $GITHUB_ENV
+
     - name: Login to GitHub Container Registry (GHCR)
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GHCR_USER --password-stdin
 
@@ -29,7 +32,7 @@ jobs:
             filename=$(basename "$dockerfile")
             imagename="${filename%.*}"
             echo "Building and pushing $imagename"
-            docker build -t ghcr.io/${{ env.GHCR_USER }}/${{ github.repository }}:$imagename -f $dockerfile .
-            docker push ghcr.io/${{ env.GHCR_USER }}/${{ github.repository }}:$imagename
+            docker build -t ghcr.io/${{ env.GHCR_USER }}/$REPO_NAME:$imagename -f $dockerfile .
+            docker push ghcr.io/${{ env.GHCR_USER }}/$REPO_NAME:$imagename
           fi
         done
