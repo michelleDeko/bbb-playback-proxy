@@ -25,14 +25,18 @@ jobs:
     - name: Login to GitHub Container Registry (GHCR)
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GHCR_USER --password-stdin
 
-    - name: Build and push Docker images
+    - name: Build and push jammy-300-amazonlinux
       run: |
-        for dockerfile in dockerfiles/*; do
-          if [[ -f "$dockerfile" ]]; then
-            filename=$(basename "$dockerfile")
-            imagename="${filename%.*}"
-            echo "Building and pushing $imagename"
-            docker build -t ghcr.io/${{ env.GHCR_USER }}/$REPO_NAME:$imagename -f $dockerfile .
-            docker push ghcr.io/${{ env.GHCR_USER }}/$REPO_NAME:$imagename
-          fi
-        done
+        dockerfile="dockerfiles/jammy-300-amazonlinux"
+        imagename="jammy-300-amazonlinux"
+        echo "Building and pushing $imagename"
+        docker build -t ghcr.io/${{ env.GHCR_USER }}/$REPO_NAME:$imagename -f $dockerfile .
+        docker push ghcr.io/${{ env.GHCR_USER }}/$REPO_NAME:$imagename
+
+    - name: Build and push jammy-300-alpine
+      run: |
+        dockerfile="dockerfiles/jammy-300-alpine"
+        imagename="jammy-300-alpine"
+        echo "Building and pushing $imagename"
+        docker build -t ghcr.io/${{ env.GHCR_USER }}/$REPO_NAME:$imagename -f $dockerfile .
+        docker push ghcr.io/${{ env.GHCR_USER }}/$REPO_NAME:$imagename
