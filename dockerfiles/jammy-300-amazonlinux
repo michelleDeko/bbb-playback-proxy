@@ -1,4 +1,4 @@
-ARG TAG=2.0.20240620.0
+ARG TAG=2.0.20251110.1
 FROM amazonlinux:${TAG} AS amazonlinux
 
 FROM ubuntu:22.04 AS bbb-playback
